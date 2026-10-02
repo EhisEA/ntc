@@ -49,25 +49,28 @@ const countUp = (el) => {
 
 /* ---------- scroll reveal ---------- */
 const revealSelectors = [
-  '.section .eyebrow',
-  '.section .h2',
-  '.cb__col',
-  '.about__text',
-  '.stat',
-  '.topics__list li',
-  '.agenda__row',
+  '.infobar__line',
+  '.cbw__half',
+  '.why__text',
+  '.bigstat',
+  '.tracks__head',
+  '.track',
+  '.sched__head',
+  '.tt__row',
+  '.legend',
+  '.section__head',
   '.badge',
   '.next-up',
+  '.gala__inner > *',
+  '.tix__head',
+  '.pass',
+  '.convened',
   '.slot',
   '.moment',
   '.reach > *',
-  '.convened',
-  '.ticket',
-  '.tags li',
-  '.venue__facts div',
-  '.faq details',
-  '.gala__inner > *',
-  '.section__note',
+  '.venue > *',
+  '.faq__list details',
+  '.faq > h2',
 ];
 
 if (!reduce && 'IntersectionObserver' in window) {
@@ -93,7 +96,10 @@ if (!reduce && 'IntersectionObserver' in window) {
   targets.forEach((el) => io.observe(el));
 
   // hero numbers count up after the entrance animation
-  setTimeout(() => document.querySelectorAll('.facts [data-count]').forEach(countUp), 700);
+  document.querySelectorAll('.infobar [data-count]').forEach((el) => {
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { countUp(el); o.disconnect(); } });
+    o.observe(el);
+  });
 }
 
 /* ---------- agenda progress rail ---------- */
