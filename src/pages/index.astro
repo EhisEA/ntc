@@ -9,6 +9,8 @@ import {
   topics,
   audiences,
   faqs,
+  partners,
+  partnerMoments,
 } from '../data/event.js';
 
 const initials = (name) =>
@@ -18,6 +20,15 @@ const initials = (name) =>
     .map((p) => p[0])
     .slice(0, 2)
     .join('');
+
+const sessionFor = (n) => programme.find((p) => p.session === n);
+const sessionTime = (n) => {
+  const p = sessionFor(n);
+  return p ? `${p.time}–${p.end}` : '';
+};
+const filledTiers = partners.tiers.filter((t) => t.logos.length);
+const openTiers = partners.tiers.filter((t) => ['platinum', 'gold', 'silver'].includes(t.id));
+const sessionHref = (n) => `#session-${n}`;
 ---
 <Base
   title="NTC 2.0 · Nigerian Telehealth Conference · 20 Oct 2026, Abuja"
@@ -37,6 +48,7 @@ const initials = (name) =>
         <a href="#programme">Programme</a>
         <a href="#speakers">Speakers</a>
         <a href="#gala">Gala</a>
+        <a href="#partners">Partners</a>
         <a href="#venue">Venue</a>
       </nav>
       <a class="btn btn--small" href="#tickets">Get a ticket</a>
@@ -46,24 +58,25 @@ const initials = (name) =>
   <main>
     <!-- HERO -->
     <section class="hero">
+      <canvas class="hero__net" aria-hidden="true"></canvas>
       <div class="wrap hero__grid">
         <div class="hero__copy">
-          <p class="eyebrow eyebrow--light">Nigerian Telehealth Conference · Second edition</p>
-          <h1 class="hero__title">
+          <p class="eyebrow eyebrow--light rise" style="--d:0">Nigerian Telehealth Conference · Second edition</p>
+          <h1 class="hero__title rise" style="--d:1">
             The future of healthcare is connected.
-            <span class="hero__accent"><span class="click">Click</span> <span class="amp">&amp;</span> <span class="brick">Brick</span></span>
+            <span class="hero__accent"><span class="click">Click</span> <span class="amp">&amp;</span> <span class="brick">Brick</span><span class="hero__link" aria-hidden="true"><i></i></span></span>
           </h1>
-          <p class="hero__lede">
+          <p class="hero__lede rise" style="--d:2">
             One day in Abuja to move telehealth from pilots and policy papers to something every Nigerian can use.
             Regulators, payers, providers, funders and founders, in one room and online.
           </p>
-          <div class="hero__ctas">
-            <a class="btn" href="#tickets">Get a ticket</a>
+          <div class="hero__ctas rise" style="--d:3">
+            <a class="btn" href="#tickets">Get a ticket <span class="arr">→</span></a>
             <a class="btn btn--ghost" href="#programme">See the programme</a>
           </div>
         </div>
 
-        <aside class="stub" aria-label="Event details">
+        <aside class="stub rise" style="--d:2" aria-label="Event details">
           <div class="stub__date">
             <span class="stub__day">20</span>
             <span class="stub__month">Oct<br />2026</span>
@@ -80,19 +93,36 @@ const initials = (name) =>
             <div><span data-unit="d">--</span><small>days</small></div>
             <div><span data-unit="h">--</span><small>hours</small></div>
             <div><span data-unit="m">--</span><small>mins</small></div>
+            <div><span data-unit="s">--</span><small>secs</small></div>
           </div>
         </aside>
       </div>
 
       <div class="wrap">
-        <ul class="facts">
-          <li><strong>{event.capacity.physical}</strong> delegates in the room</li>
-          <li><strong>{event.capacity.virtual}</strong> joining online</li>
-          <li><strong>8</strong> sessions, one day</li>
+        <ul class="facts rise" style="--d:4">
+          <li><strong data-count={event.capacity.physical}>{event.capacity.physical}</strong> delegates in the room</li>
+          <li><strong data-count={event.capacity.virtual}>{event.capacity.virtual}</strong> joining online</li>
+          <li><strong data-count="8">8</strong> sessions, one day</li>
           <li><strong>1</strong> Abuja Declaration on Telehealth</li>
         </ul>
       </div>
+      <div class="waves" aria-hidden="true">
+        <svg class="waves__layer waves__layer--sky" viewBox="0 0 2880 120" preserveAspectRatio="none"><path d="M0 60C360 0 1080 120 1440 60S2520 0 2880 60V120H0Z" /></svg>
+        <svg class="waves__layer waves__layer--green" viewBox="0 0 2880 120" preserveAspectRatio="none"><path d="M0 70C360 10 1080 130 1440 70S2520 10 2880 70V120H0Z" /></svg>
+      </div>
     </section>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        {[0, 1].map(() => (
+          <span class="ticker__set">
+            {['20 October 2026', 'AATC, Abuja', 'Click & Brick', '#NTC2026', 'In person & online', '#TelehealthForAll', 'Abuja Declaration on Telehealth', '#ClickAndBrick'].map((t) => (
+              <span class="ticker__item">{t}<b class="ticker__dot"></b></span>
+            ))}
+          </span>
+        ))}
+      </div>
+    </div>
 
     <!-- ABOUT / CLICK & BRICK -->
     <section class="section" id="about">
@@ -109,6 +139,7 @@ const initials = (name) =>
             <svg viewBox="0 0 80 200" preserveAspectRatio="none">
               <line x1="40" y1="0" x2="40" y2="200" />
               <circle cx="40" cy="40" r="5" /><circle cx="40" cy="100" r="9" /><circle cx="40" cy="160" r="5" />
+              <circle class="cb__pulse" cx="40" cy="0" r="4"><animate attributeName="cy" values="0;200" dur="2.6s" repeatCount="indefinite" /><animate attributeName="opacity" values="0;1;1;0" dur="2.6s" repeatCount="indefinite" /></circle>
             </svg>
           </div>
           <div class="cb__col">
@@ -132,7 +163,7 @@ const initials = (name) =>
           </div>
 
           <figure class="stat">
-            <p class="stat__num">30%</p>
+            <p class="stat__num"><span data-count="30">30</span>%</p>
             <figcaption>
               of people who used a telehealth kiosk in Lagos said they <strong>would not have sought care at all</strong> without it.
               <span class="stat__src">Source: VillageReach, Lagos Telehealth Case Study, 2026</span>
@@ -143,7 +174,7 @@ const initials = (name) =>
     </section>
 
     <!-- TOPICS -->
-    <section class="section section--tint">
+    <section class="section section--green">
       <div class="wrap topics">
         <div>
           <p class="eyebrow">On the table</p>
@@ -170,7 +201,7 @@ const initials = (name) =>
 
         <ol class="agenda">
           {programme.map((item) => (
-            <li class={`agenda__row ${item.kind ? `agenda__row--${item.kind}` : ''}`}>
+            <li id={item.session ? `session-${item.session}` : undefined} class={`agenda__row ${item.kind ? `agenda__row--${item.kind}` : ''}`}>
               <p class="agenda__time">{item.time}<span>–{item.end}</span></p>
               <div class="agenda__body">
                 {item.session && <p class="agenda__tag">Session {item.session}</p>}
@@ -189,37 +220,54 @@ const initials = (name) =>
         <div class="section__head">
           <div>
             <p class="eyebrow">Speakers</p>
-            <h2 class="h2">Confirmed so far</h2>
+            <h2 class="h2">Who's on stage</h2>
           </div>
           <p class="section__note">
-            Ministers, regulators, insurers and funders have been invited. We add names here as they confirm.
+            <span class="count-pill"><b>{speakers.length}</b> confirmed</span>
+            Ministers, regulators, insurers and funders have been invited. Badges go up here as they confirm.
           </p>
         </div>
 
-        <ul class="speakers">
-          {speakers.map((s, i) => (
-            <li class="speaker">
-              {s.photo ? (
-                <img class="speaker__photo" src={s.photo} alt={s.name} loading="lazy" width="320" height="320" />
+        <ul class="badges">
+          {speakers.map((s) => (
+            <li class={`badge badge--${s.type.toLowerCase()}`}>
+              <span class="badge__slot" aria-hidden="true"></span>
+              <p class="badge__band">{s.type}</p>
+              <div class="badge__photo">
+                {s.photo ? (
+                  <img src={s.photo} alt={s.name} loading="lazy" width="320" height="320" />
+                ) : (
+                  <span aria-hidden="true">{initials(s.name)}</span>
+                )}
+              </div>
+              <h3 class="badge__name">{s.name}</h3>
+              <p class="badge__role">{s.role}</p>
+              <p class="badge__org">{s.org}</p>
+              {s.session ? (
+                <a class="chip" href={sessionHref(s.session)}>
+                  <span>{sessionTime(s.session)}</span> {sessionFor(s.session)?.short}
+                </a>
               ) : (
-                <div class={`speaker__photo speaker__mono speaker__mono--${i % 3}`} aria-hidden="true">{initials(s.name)}</div>
+                <p class="chip chip--muted">Session to be announced</p>
               )}
-              {s.tag && <p class="speaker__tag">{s.tag}</p>}
-              <h3 class="speaker__name">{s.name}</h3>
-              <p class="speaker__role">{s.role}</p>
-              <p class="speaker__org">{s.org}</p>
+              <p class="badge__foot" aria-hidden="true">NTC 2.0 · 20.10.26</p>
             </li>
           ))}
-          <li class="speaker speaker--more">
-            <p>More speakers are being confirmed.</p>
-            <a href={contact.instagram[0].url} target="_blank" rel="noopener">Follow {contact.instagram[0].handle} for announcements →</a>
-          </li>
         </ul>
+        <div class="next-up">
+          <p class="next-up__label"><span class="next-up__dot" aria-hidden="true"></span>More speakers soon</p>
+          <p class="next-up__text">
+            New confirmations go up on Instagram first:{' '}
+            <a href={contact.instagram[0].url} target="_blank" rel="noopener">{contact.instagram[0].handle}</a>
+          </p>
+          <a class="btn btn--outline btn--small" href={`mailto:${contact.partnerships}?subject=NTC%202.0%20speaking`}>Want to speak? Get in touch</a>
+        </div>
       </div>
     </section>
 
     <!-- GALA -->
     <section class="gala" id="gala">
+      <div class="gala__sparkle" aria-hidden="true"></div>
       <div class="wrap gala__inner">
         <div>
           <p class="eyebrow eyebrow--gold">Same evening · {event.galaHours}</p>
@@ -263,25 +311,93 @@ const initials = (name) =>
       </div>
     </section>
 
-    <!-- WHO / PARTNER -->
-    <section class="section section--tint">
-      <div class="wrap split">
-        <div>
-          <p class="eyebrow">Who's in the room</p>
-          <h2 class="h2">Everyone who decides how care reaches people.</h2>
-          <ul class="tags">
-            {audiences.map((a) => <li>{a}</li>)}
-          </ul>
-        </div>
-        <div class="partner">
-          <p class="eyebrow">Partner with NTC 2.0</p>
-          <h3 class="h3">Sponsor, exhibit, advertise or speak</h3>
-          <p>
-            Put your organisation in front of the people shaping Nigeria's telehealth rollout. Tell us what you have in mind and
-            we'll send the options.
+    <!-- PARTNERS -->
+    <section class="section partners" id="partners">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Partners</p>
+            <h2 class="h2">Put your name behind<br class="br-wide" /> nationwide telehealth.</h2>
+          </div>
+          <p class="section__note">
+            NTC 2.0 brings together the people who decide how care reaches Nigerians. Partner with us to be in the room,
+            on stage and in the conversation.
           </p>
-          <a class="btn btn--outline" href={`mailto:${contact.partnerships}?subject=NTC%202.0%20partnership`}>Email the partnerships team</a>
-          <p class="partner__email">{contact.partnerships}</p>
+        </div>
+
+        <p class="convened">
+          <span>Convened by</span>
+          {partners.convener.logo ? (
+            <img src={partners.convener.logo} alt={partners.convener.name} height="40" />
+          ) : (
+            <strong>{partners.convener.name}</strong>
+          )}
+        </p>
+
+        {filledTiers.length ? (
+          <div class="tierwall">
+            {filledTiers.map((t) => (
+              <div class={`tier tier--${t.id}`}>
+                <p class="tier__label">{t.label}{t.blurb && ['platinum', 'gold', 'silver'].includes(t.id) ? ' partners' : ''}</p>
+                <ul class="tier__logos">
+                  {t.logos.map((l) => (
+                    <li>
+                      <a class="logo-tile" href={l.url || undefined} target="_blank" rel="noopener" title={l.name}>
+                        <img src={l.logo} alt={l.name} loading="lazy" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <ul class="slots">
+            {openTiers.map((t) => (
+              <li class={`slot slot--${t.id}`}>
+                <p class="slot__status"><span class="slot__dot" aria-hidden="true"></span>Open</p>
+                <h3 class="slot__tier">{t.label}</h3>
+                <p class="slot__blurb">{t.blurb}</p>
+                <div class="slot__logo" aria-hidden="true"><span>Your logo here</span></div>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div class="moments">
+          <div class="moments__head">
+            <h3 class="moments__title">Where partners show up on the day</h3>
+            <p class="moments__sub">Tuesday 20 October · from registration to the last award</p>
+          </div>
+          <ol class="moments__track">
+            {partnerMoments.map((m) => (
+              <li class="moment">
+                <span class="moment__dot" aria-hidden="true"></span>
+                <p class="moment__time">{m.time}</p>
+                <h4 class="moment__title">{m.title}</h4>
+                <p class="moment__text">{m.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div class="reach">
+          <div class="reach__numbers">
+            <p><strong data-count={event.capacity.physical}>{event.capacity.physical}</strong> delegates in Abuja</p>
+            <p><strong data-count={event.capacity.virtual}>{event.capacity.virtual}</strong> joining online</p>
+          </div>
+          <div class="reach__who">
+            <p class="reach__label">Who's in the room</p>
+            <ul class="tags">
+              {audiences.map((a) => <li>{a}</li>)}
+            </ul>
+          </div>
+          <div class="reach__cta">
+            <h3 class="h3">Let's talk</h3>
+            <p>Tell us what you want to achieve and we'll send the partnership options that fit.</p>
+            <a class="btn" href={`mailto:${contact.partnerships}?subject=NTC%202.0%20partnership`}>Email the partnerships team <span class="arr">→</span></a>
+            <p class="reach__contact">{contact.partnerships} · <a href={contact.phoneHref}>{contact.phone}</a></p>
+          </div>
         </div>
       </div>
     </section>
@@ -355,19 +471,6 @@ const initials = (name) =>
   <a class="mobile-cta" href="#tickets">Get a ticket · from ₦15,000</a>
 
   <script>
-    const el = document.querySelector('[data-countdown]');
-    if (el) {
-      const target = new Date(el.dataset.countdown).getTime();
-      const set = (u, v) => (el.querySelector(`[data-unit="${u}"]`).textContent = String(v).padStart(2, '0'));
-      const tick = () => {
-        const diff = Math.max(0, target - Date.now());
-        set('d', Math.floor(diff / 864e5));
-        set('h', Math.floor((diff / 36e5) % 24));
-        set('m', Math.floor((diff / 6e4) % 60));
-        if (diff === 0) el.classList.add('countdown--live');
-      };
-      tick();
-      setInterval(tick, 30000);
-    }
+    import '../scripts/motion.js';
   </script>
 </Base>

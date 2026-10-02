@@ -64,7 +64,7 @@ export const tickets = [
 // Times from Programme draft v2 ("Programme at a glance"). Subject to change.
 export const programme = [
   { time: '7:30', end: '9:00', title: 'Registration, exhibition & networking breakfast', kind: 'break' },
-  { time: '9:00', end: '10:30', title: 'Opening: welcome, special address and keynote', session: 1 },
+  { time: '9:00', end: '10:30', title: 'Opening: welcome, special address and keynote', session: 1, short: 'Opening' },
   { time: '10:30', end: '11:00', title: 'Tea break & exhibition tour', kind: 'break' },
   {
     time: '11:00',
@@ -72,6 +72,7 @@ export const programme = [
     title: 'High-Level Leadership Panel',
     sub: 'From policy to nationwide implementation',
     session: 2,
+    short: 'Leadership Panel',
   },
   {
     time: '12:00',
@@ -79,6 +80,7 @@ export const programme = [
     title: 'Fireside Chat 1: From Policy to Nationwide Implementation',
     sub: 'Policy deep dive on the National Telemedicine Guidelines and the Digital Health Bill',
     session: 3,
+    short: 'Fireside Chat 1 · Policy',
   },
   { time: '1:00', end: '2:00', title: 'Networking lunch', kind: 'break' },
   {
@@ -87,6 +89,7 @@ export const programme = [
     title: 'Fireside Chat 2: Financing & Incentivisation',
     sub: 'Who pays for telehealth today, and who pays in three years',
     session: 4,
+    short: 'Fireside Chat 2 · Financing',
   },
   {
     time: '3:00',
@@ -94,6 +97,7 @@ export const programme = [
     title: 'Fireside Chat 3: Driving Adoption Through Community Sensitisation',
     sub: 'Markets, pharmacies, faith leaders and local government',
     session: 5,
+    short: 'Fireside Chat 3 · Adoption',
   },
   {
     time: '4:00',
@@ -101,29 +105,41 @@ export const programme = [
     title: 'Youth Forum & Innovation Showcase',
     sub: 'Including the Student Innovation Challenge finals',
     session: '6–7',
+    short: 'Youth Forum & Showcase',
   },
   {
     time: '5:00',
     end: '5:30',
     title: 'Closing plenary: the Abuja Declaration on Telehealth',
     session: 8,
+    short: 'Closing plenary',
   },
   { time: '7:00', end: '11:00', title: 'NTC 2.0 Gala & Awards Night', kind: 'gala' },
 ];
 
 // Only people marked "Confirmed" on the speaker tracker. Verify before each deploy.
+// `session` links the badge to a programme row; sessions follow the draft programme and may move.
 export const speakers = [
   {
     name: 'Dr Funmi Adewara',
     role: 'Convener, NTC · Founder & CEO',
     org: 'Mobihealth International',
     photo: null,
+    type: 'Speaker',
+    session: 1,
   },
-  { name: 'Dr Mories Atoki', role: 'Chief Executive Officer', org: 'ABCHealth', photo: null, tag: 'Moderator' },
-  { name: 'Dr Olufunke Fasawe', role: 'Country Director, Nigeria', org: 'Clinton Health Access Initiative', photo: null },
-  { name: 'Dr Uchenna Igbokwe', role: 'Executive Director & CEO', org: 'SCIDaR', photo: null },
-  { name: 'Mr Dauda Majanbu', role: 'Country Lead, Nigeria', org: 'VillageReach', photo: null },
-  { name: 'Dr Abiola Oshunniyi', role: 'Head, Project Management Office', org: 'NCDC', photo: null },
+  { name: 'Dr Mories Atoki', role: 'Chief Executive Officer', org: 'ABCHealth', photo: null, type: 'Moderator', session: 2 },
+  { name: 'Mr Dauda Majanbu', role: 'Country Lead, Nigeria', org: 'VillageReach', photo: null, type: 'Speaker', session: 2 },
+  { name: 'Dr Uchenna Igbokwe', role: 'Executive Director & CEO', org: 'SCIDaR', photo: null, type: 'Speaker', session: 3 },
+  {
+    name: 'Dr Olufunke Fasawe',
+    role: 'Country Director, Nigeria',
+    org: 'Clinton Health Access Initiative',
+    photo: null,
+    type: 'Speaker',
+    session: 4,
+  },
+  { name: 'Dr Abiola Oshunniyi', role: 'Head, Project Management Office', org: 'NCDC', photo: null, type: 'Speaker' },
 ];
 
 export const topics = [
@@ -169,4 +185,29 @@ export const faqs = [
     q: 'Who do I contact about my ticket?',
     a: 'Email support@mobihealthinternational.com or call +234 911 000 0557.',
   },
+];
+
+// Partners. Add a logo by dropping the file in public/partners/ and adding
+// { name, logo: '/partners/file.svg', url } to the right tier. Empty tiers are hidden;
+// while every tier is empty, the page shows the open partnership tiers instead.
+// Tier names follow the NTC 2.0 brand guide; confirm them with the organisers.
+export const partners = {
+  convener: { name: 'Mobihealth International', logo: null },
+  tiers: [
+    { id: 'platinum', label: 'Platinum', blurb: 'Headline partner', logos: [] },
+    { id: 'gold', label: 'Gold', blurb: 'Partner', logos: [] },
+    { id: 'silver', label: 'Silver', blurb: 'Supporting partner', logos: [] },
+    { id: 'exhibition', label: 'Exhibition partners', logos: [] },
+    { id: 'media', label: 'Media partners', logos: [] },
+  ],
+};
+
+// Brand moments across the day, taken from the Programme draft v2.
+export const partnerMoments = [
+  { time: '7:30 AM', title: 'Exhibition & Innovation Hub', text: 'A stand in the hub that opens at registration and runs through the day.' },
+  { time: '9:00 AM', title: 'Goodwill message', text: 'A short message from your organisation during the Opening.' },
+  { time: '1:00 PM', title: 'Sponsor meetings', text: 'Time with delegates and decision-makers over the networking lunch.' },
+  { time: '4:50 PM', title: 'Innovation Showcase', text: 'A callout for exhibitors alongside the startups and student finalists.' },
+  { time: '5:17 PM', title: 'Partnership announcements', text: 'Announce a commitment on stage at the closing plenary.' },
+  { time: '7:00 PM', title: 'Gala & Awards Night', text: 'Sponsor an award category and be recognised at the gala dinner.' },
 ];
