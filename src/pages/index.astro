@@ -1,0 +1,373 @@
+---
+import Base from '../layouts/Base.astro';
+import {
+  event,
+  contact,
+  tickets,
+  programme,
+  speakers,
+  topics,
+  audiences,
+  faqs,
+} from '../data/event.js';
+
+const initials = (name) =>
+  name
+    .replace(/^(Dr|Mr|Mrs|Ms|Prof|Pharm|Hon|Engr)\.?\s+/i, '')
+    .split(/\s+/)
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('');
+---
+<Base
+  title="NTC 2.0 · Nigerian Telehealth Conference · 20 Oct 2026, Abuja"
+  description="The Nigerian Telehealth Conference returns to Abuja on 20 October 2026. Policy, financing and community adoption of telehealth, plus the Gala & Awards Night. In person at AATC and online."
+>
+  <header class="nav" id="top">
+    <div class="wrap nav__inner">
+      <a href="#top" class="mark" aria-label="NTC 2.0 home">
+        <svg class="mark__signal" viewBox="0 0 24 16" aria-hidden="true">
+          <path d="M3 9a13 13 0 0 1 18 0M7 12.5a7.5 7.5 0 0 1 10 0" />
+          <circle cx="12" cy="14.6" r="1.6" />
+        </svg>
+        <span class="mark__ntc">NTC</span><span class="mark__ver">2.0</span>
+      </a>
+      <nav class="nav__links" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#programme">Programme</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#gala">Gala</a>
+        <a href="#venue">Venue</a>
+      </nav>
+      <a class="btn btn--small" href="#tickets">Get a ticket</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--light">Nigerian Telehealth Conference · Second edition</p>
+          <h1 class="hero__title">
+            The future of healthcare is connected.
+            <span class="hero__accent"><span class="click">Click</span> <span class="amp">&amp;</span> <span class="brick">Brick</span></span>
+          </h1>
+          <p class="hero__lede">
+            One day in Abuja to move telehealth from pilots and policy papers to something every Nigerian can use.
+            Regulators, payers, providers, funders and founders, in one room and online.
+          </p>
+          <div class="hero__ctas">
+            <a class="btn" href="#tickets">Get a ticket</a>
+            <a class="btn btn--ghost" href="#programme">See the programme</a>
+          </div>
+        </div>
+
+        <aside class="stub" aria-label="Event details">
+          <div class="stub__date">
+            <span class="stub__day">20</span>
+            <span class="stub__month">Oct<br />2026</span>
+          </div>
+          <p class="stub__weekday">Tuesday</p>
+          <dl class="stub__facts">
+            <div><dt>Where</dt><dd>AATC, Central Business District, Abuja</dd></div>
+            <div><dt>Conference</dt><dd>{event.conferenceHours}</dd></div>
+            <div><dt>Gala & Awards</dt><dd>{event.galaHours}</dd></div>
+            <div><dt>Format</dt><dd>{event.format}</dd></div>
+          </dl>
+          <div class="stub__perf" aria-hidden="true"></div>
+          <div class="countdown" data-countdown={event.startISO} aria-live="off">
+            <div><span data-unit="d">--</span><small>days</small></div>
+            <div><span data-unit="h">--</span><small>hours</small></div>
+            <div><span data-unit="m">--</span><small>mins</small></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="wrap">
+        <ul class="facts">
+          <li><strong>{event.capacity.physical}</strong> delegates in the room</li>
+          <li><strong>{event.capacity.virtual}</strong> joining online</li>
+          <li><strong>8</strong> sessions, one day</li>
+          <li><strong>1</strong> Abuja Declaration on Telehealth</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ABOUT / CLICK & BRICK -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <p class="eyebrow">The idea</p>
+        <h2 class="h2">Telehealth works when the screen<br class="br-wide" /> and the building work together.</h2>
+
+        <div class="cb">
+          <div class="cb__col">
+            <p class="cb__label cb__label--click">Click</p>
+            <p>The phone call, the video consultation, the e-prescription, the medical record that follows the patient from one clinic to the next.</p>
+          </div>
+          <div class="cb__join" aria-hidden="true">
+            <svg viewBox="0 0 80 200" preserveAspectRatio="none">
+              <line x1="40" y1="0" x2="40" y2="200" />
+              <circle cx="40" cy="40" r="5" /><circle cx="40" cy="100" r="9" /><circle cx="40" cy="160" r="5" />
+            </svg>
+          </div>
+          <div class="cb__col">
+            <p class="cb__label cb__label--brick">Brick</p>
+            <p>The primary health centre, the pharmacy counter, the market kiosk, the hospital bed. The places people already walk into and trust.</p>
+          </div>
+        </div>
+
+        <div class="about__grid">
+          <div class="about__text">
+            <p>
+              The first Nigerian Telehealth Conference set out what the country needed to make telehealth part of everyday care.{' '}
+              <strong>NTC 2.0 asks what has moved since, and who will move the rest.</strong>
+            </p>
+            <p>
+              The day is built around commitments, not speeches. Every panel closes with each speaker naming one thing their
+              institution will deliver, and by when. Those commitments go into the <strong>Abuja Declaration on Telehealth</strong>,
+              read at the closing plenary.
+            </p>
+            <p class="focus"><span>Focus</span> {event.focus}</p>
+          </div>
+
+          <figure class="stat">
+            <p class="stat__num">30%</p>
+            <figcaption>
+              of people who used a telehealth kiosk in Lagos said they <strong>would not have sought care at all</strong> without it.
+              <span class="stat__src">Source: VillageReach, Lagos Telehealth Case Study, 2026</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- TOPICS -->
+    <section class="section section--tint">
+      <div class="wrap topics">
+        <div>
+          <p class="eyebrow">On the table</p>
+          <h2 class="h2">The questions that decide whether telehealth scales.</h2>
+        </div>
+        <ol class="topics__list">
+          {topics.map((t, i) => (
+            <li><span class="topics__n">{String(i + 1).padStart(2, '0')}</span>{t}</li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROGRAMME -->
+    <section class="section" id="programme">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Programme</p>
+            <h2 class="h2">Tuesday, 20 October</h2>
+          </div>
+          <p class="section__note">All times West Africa Time (WAT). Working draft; sessions may move.</p>
+        </div>
+
+        <ol class="agenda">
+          {programme.map((item) => (
+            <li class={`agenda__row ${item.kind ? `agenda__row--${item.kind}` : ''}`}>
+              <p class="agenda__time">{item.time}<span>–{item.end}</span></p>
+              <div class="agenda__body">
+                {item.session && <p class="agenda__tag">Session {item.session}</p>}
+                <h3 class="agenda__title">{item.title}</h3>
+                {item.sub && <p class="agenda__sub">{item.sub}</p>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- SPEAKERS -->
+    <section class="section section--tint" id="speakers">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Speakers</p>
+            <h2 class="h2">Confirmed so far</h2>
+          </div>
+          <p class="section__note">
+            Ministers, regulators, insurers and funders have been invited. We add names here as they confirm.
+          </p>
+        </div>
+
+        <ul class="speakers">
+          {speakers.map((s, i) => (
+            <li class="speaker">
+              {s.photo ? (
+                <img class="speaker__photo" src={s.photo} alt={s.name} loading="lazy" width="320" height="320" />
+              ) : (
+                <div class={`speaker__photo speaker__mono speaker__mono--${i % 3}`} aria-hidden="true">{initials(s.name)}</div>
+              )}
+              {s.tag && <p class="speaker__tag">{s.tag}</p>}
+              <h3 class="speaker__name">{s.name}</h3>
+              <p class="speaker__role">{s.role}</p>
+              <p class="speaker__org">{s.org}</p>
+            </li>
+          ))}
+          <li class="speaker speaker--more">
+            <p>More speakers are being confirmed.</p>
+            <a href={contact.instagram[0].url} target="_blank" rel="noopener">Follow {contact.instagram[0].handle} for announcements →</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- GALA -->
+    <section class="gala" id="gala">
+      <div class="wrap gala__inner">
+        <div>
+          <p class="eyebrow eyebrow--gold">Same evening · {event.galaHours}</p>
+          <h2 class="h2 h2--light">NTC 2.0 Gala &amp; Awards Night</h2>
+          <p class="gala__text">
+            An evening for the people doing the work: recognising excellence in telehealth, digital health, innovation,
+            partnerships and healthcare leadership, and crowning the winners of the Student Innovation Challenge.
+          </p>
+          <p class="gala__text gala__text--small">Award categories and nominations will be announced on our Instagram.</p>
+        </div>
+        <a class="btn btn--gold" href="#tickets">Get a Conference + Awards Night ticket</a>
+      </div>
+    </section>
+
+    <!-- TICKETS -->
+    <section class="section" id="tickets">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Tickets</p>
+            <h2 class="h2">Choose how you'll join</h2>
+          </div>
+          <p class="section__note">Booked securely through tix.africa. Prices include booking fees.</p>
+        </div>
+
+        <ul class="tickets">
+          {tickets.map((t) => (
+            <li class={`ticket ${t.featured ? 'ticket--featured' : ''}`}>
+              <h3 class="ticket__name">{t.name}</h3>
+              <p class="ticket__price">{t.price}</p>
+              <p class="ticket__note">{t.note}</p>
+              <ul class="ticket__includes">
+                {t.includes.map((x) => <li>{x}</li>)}
+              </ul>
+              <a class={`btn ${t.featured ? '' : 'btn--outline'}`} href={event.ticketUrl} target="_blank" rel="noopener">
+                Book on tix.africa
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- WHO / PARTNER -->
+    <section class="section section--tint">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">Who's in the room</p>
+          <h2 class="h2">Everyone who decides how care reaches people.</h2>
+          <ul class="tags">
+            {audiences.map((a) => <li>{a}</li>)}
+          </ul>
+        </div>
+        <div class="partner">
+          <p class="eyebrow">Partner with NTC 2.0</p>
+          <h3 class="h3">Sponsor, exhibit, advertise or speak</h3>
+          <p>
+            Put your organisation in front of the people shaping Nigeria's telehealth rollout. Tell us what you have in mind and
+            we'll send the options.
+          </p>
+          <a class="btn btn--outline" href={`mailto:${contact.partnerships}?subject=NTC%202.0%20partnership`}>Email the partnerships team</a>
+          <p class="partner__email">{contact.partnerships}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VENUE -->
+    <section class="section" id="venue">
+      <div class="wrap venue">
+        <div>
+          <p class="eyebrow">Venue</p>
+          <h2 class="h2">{event.venue.name}</h2>
+          <p class="venue__addr">{event.venue.address}</p>
+          <a class="btn btn--outline" href={event.venue.mapUrl} target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+        <dl class="venue__facts">
+          <div><dt>Date</dt><dd>{event.dateLabel}</dd></div>
+          <div><dt>Registration opens</dt><dd>7:30 AM</dd></div>
+          <div><dt>Conference</dt><dd>{event.conferenceHours}</dd></div>
+          <div><dt>Gala & Awards Night</dt><dd>{event.galaHours}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section--tint" id="faq">
+      <div class="wrap faq">
+        <div>
+          <p class="eyebrow">Questions</p>
+          <h2 class="h2">Good to know</h2>
+        </div>
+        <div class="faq__list">
+          {faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div>
+        <a href="#top" class="mark mark--light" aria-label="Back to top">
+          <svg class="mark__signal" viewBox="0 0 24 16" aria-hidden="true">
+            <path d="M3 9a13 13 0 0 1 18 0M7 12.5a7.5 7.5 0 0 1 10 0" />
+            <circle cx="12" cy="14.6" r="1.6" />
+          </svg>
+          <span class="mark__ntc">NTC</span><span class="mark__ver">2.0</span>
+        </a>
+        <p class="footer__tag">{event.tagline}</p>
+        <p class="footer__small">Convened by Mobihealth International.</p>
+      </div>
+      <div>
+        <h3 class="footer__h">Contact</h3>
+        <p><a href={contact.phoneHref}>{contact.phone}</a></p>
+        <p><a href={`mailto:${contact.support}`}>{contact.support}</a></p>
+        <p><a href={`mailto:${contact.partnerships}`}>{contact.partnerships}</a> <span class="footer__small">(partnerships)</span></p>
+      </div>
+      <div>
+        <h3 class="footer__h">Follow</h3>
+        {contact.instagram.map((i) => (
+          <p><a href={i.url} target="_blank" rel="noopener">{i.handle}</a></p>
+        ))}
+        <p class="footer__small">{contact.hashtags.join('  ')}</p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-cta" href="#tickets">Get a ticket · from ₦15,000</a>
+
+  <script>
+    const el = document.querySelector('[data-countdown]');
+    if (el) {
+      const target = new Date(el.dataset.countdown).getTime();
+      const set = (u, v) => (el.querySelector(`[data-unit="${u}"]`).textContent = String(v).padStart(2, '0'));
+      const tick = () => {
+        const diff = Math.max(0, target - Date.now());
+        set('d', Math.floor(diff / 864e5));
+        set('h', Math.floor((diff / 36e5) % 24));
+        set('m', Math.floor((diff / 6e4) % 60));
+        if (diff === 0) el.classList.add('countdown--live');
+      };
+      tick();
+      setInterval(tick, 30000);
+    }
+  </script>
+</Base>
