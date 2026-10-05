@@ -27,7 +27,7 @@ if (cd) {
 }
 
 /* ---------- nav shadow on scroll ---------- */
-const nav = document.querySelector('.nav');
+const nav = document.querySelector('.nav, .bnav');
 const onScroll = () => nav?.classList.toggle('nav--scrolled', window.scrollY > 8);
 onScroll();
 window.addEventListener('scroll', onScroll, { passive: true });
@@ -49,9 +49,13 @@ const countUp = (el) => {
 
 /* ---------- scroll reveal ---------- */
 const revealSelectors = [
+  '[data-reveal]',
   '.infobar__line',
   '.cbw__half',
   '.why__text',
+  '.path__step',
+  '.journey__photo',
+  '.reel',
   '.bigstat',
   '.tracks__head',
   '.track',

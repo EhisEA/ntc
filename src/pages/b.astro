@@ -1,0 +1,447 @@
+---
+// Design B ("Classic"): photo-led, soft cards and gradients, after the team's portal.
+// Same content as Design A; everything comes from src/data/event.js.
+import Base from '../layouts/Base.astro';
+import {
+  event,
+  contact,
+  tickets,
+  programme,
+  speakers,
+  topics,
+  audiences,
+  faqs,
+  partners,
+  partnerMoments,
+  journey,
+  reels,
+} from '../data/event.js';
+import { initials, sessionFor, sessionTime, sessionHref } from '../lib/helpers.js';
+import DesignSwitch from '../components/DesignSwitch.astro';
+import '../styles/b.css';
+
+const filledTiers = partners.tiers.filter((t) => t.logos.length);
+const openTiers = partners.tiers.filter((t) => ['platinum', 'gold', 'silver'].includes(t.id));
+const conveners = [partners.convener, ...(partners.coConveners || [])];
+
+const clickItems = ['Teleconsultation', 'E-prescriptions', 'Digital health records', 'AI & data', 'Remote access'];
+const brickItems = ['Primary health centres', 'Pharmacies', 'Market kiosks', 'Hospitals', 'Health workers'];
+
+// small icons for the care pathway, one per journey step
+const stepIcons = [
+  '<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M14 20c0-2.6 1.4-4.6 3.5-4.6S21 17.4 21 20"/>',
+  '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 12v5M9.5 14.5h5"/>',
+  '<rect x="3" y="5" width="18" height="12" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M8 20h8M12 17v3"/>',
+  '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/><path d="M7.5 15h9"/>',
+  '<path d="M6 3v6a6 6 0 0 0 12 0V3"/><path d="M12 15v2a4 4 0 0 0 8 0v-2"/><circle cx="20" cy="13" r="2"/>',
+  '<path d="M4 12h12M12 7l5 5-5 5"/><path d="M20 4v16"/>',
+  '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/><path d="M10 8l1.5 1.5L14 7"/>',
+];
+---
+<Base
+  title="NTC 2.0 · Nigerian Telehealth Conference · 20 Oct 2026, Abuja"
+  description="The Nigerian Telehealth Conference returns to Abuja on 20 October 2026. Policy, financing and community adoption of telehealth, plus the Gala & Awards Night. In person at AATC and online."
+>
+  <div class="b">
+    <header class="bnav" id="top">
+      <div class="bnav__bar">
+        <a href="#top" class="bnav__brand" aria-label="NTC 2.0 home">
+          <span class="bnav__mark">NTC <em>2.0</em></span>
+          <span class="bnav__meta">20 October 2026 · Abuja</span>
+        </a>
+        <nav class="bnav__links" aria-label="Main">
+          <a href="#about">About</a>
+          <a href="#journey">Vision</a>
+          <a href="#programme">Agenda</a>
+          <a href="#speakers">Speakers</a>
+          <a href="#partners">Partners</a>
+          <a href="#venue">Venue</a>
+        </nav>
+        <a class="bbtn bbtn--sm" href="#tickets">Register</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="bhero">
+        <div class="bhero__photo" aria-hidden="true"><img src="/media/nurse-tablet.webp" alt="" width="900" height="900" fetchpriority="high" /></div>
+        <canvas class="hero__net bhero__net" aria-hidden="true"></canvas>
+        <div class="bwrap bhero__inner">
+          <p class="bkicker" data-reveal>NTC 2.0 · Second edition</p>
+          <h1 class="bhero__title" data-reveal>Nigerian Telehealth Conference <span>2.0</span></h1>
+          <p class="bhero__date" data-reveal>{event.dateLabel} · {event.venue.name}, Abuja</p>
+          <p class="bhero__theme" data-reveal>{event.theme}: <strong>{event.themeAccent}</strong></p>
+          <p class="bhero__focus" data-reveal>{event.focus}.</p>
+          <div class="bhero__ctas" data-reveal>
+            <a class="bbtn" href="#tickets">Register for NTC 2.0 <span aria-hidden="true">→</span></a>
+            <a class="bbtn bbtn--ghost" href="#programme">Explore the programme</a>
+          </div>
+          <div class="bcount" data-countdown={event.startISO} data-reveal>
+            <div><span data-unit="d">--</span><small>Days</small></div>
+            <div><span data-unit="h">--</span><small>Hours</small></div>
+            <div><span data-unit="m">--</span><small>Minutes</small></div>
+            <div><span data-unit="s">--</span><small>Seconds</small></div>
+          </div>
+        </div>
+        <a class="bhero__scroll" href="#about">Scroll to explore <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="bsec" id="about">
+        <div class="bwrap babout">
+          <figure class="babout__photo" data-reveal>
+            <img src="/media/doctor-video-call.webp" alt="A doctor on a video consultation with a patient" width="900" height="900" loading="lazy" />
+            <figcaption><span class="blive"></span>Doctor connected</figcaption>
+          </figure>
+          <div class="babout__card" data-reveal>
+            <p class="beyebrow">About NTC</p>
+            <h2 class="bh2 bh2--light">From policy to everyday care</h2>
+            <p>
+              The first Nigerian Telehealth Conference set out what the country needed to make telehealth part of everyday care.
+              NTC 2.0 asks what has moved since, and who will move the rest.
+            </p>
+            <p>
+              The day runs on commitments, not speeches. Every panel closes with each speaker naming one thing their institution
+              will deliver, and by when. Those commitments become the <strong>Abuja Declaration on Telehealth</strong>.
+            </p>
+            <dl class="bchips">
+              <div><dt>When</dt><dd>{event.dateShort}</dd></div>
+              <div><dt>Where</dt><dd>AATC, Abuja</dd></div>
+              <div><dt>Format</dt><dd>{event.format}</dd></div>
+            </dl>
+            <a class="bbtn" href="#tickets">Register for NTC 2.0 <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="bwrap bstats">
+          <div data-reveal><strong data-count={event.capacity.physical}>{event.capacity.physical}</strong><span>delegates in the room</span></div>
+          <div data-reveal><strong data-count={event.capacity.virtual}>{event.capacity.virtual}</strong><span>joining online</span></div>
+          <div data-reveal><strong data-count="8">8</strong><span>sessions in one day</span></div>
+          <div data-reveal><strong><span data-count="30">30</span>%</strong><span>of Lagos kiosk users would not have sought care otherwise <em>(VillageReach, 2026)</em></span></div>
+        </div>
+      </section>
+
+      <!-- CLICK & BRICK -->
+      <section class="bdark bcb">
+        <div class="bwrap">
+          <div class="bdistance" data-reveal>
+            <div>
+              <h2 class="bh2 bh2--light">Healthcare should not depend on distance.</h2>
+              <p>NTC 2.0 connects policy, facilities and digital access into one plan, so care reaches people where they live, not only where hospitals are built.</p>
+            </div>
+            <figure><img src="/media/distance-care.webp" alt="A doctor online connected to a primary health centre in the community" width="1024" height="571" loading="lazy" /></figure>
+          </div>
+          <div class="bcb__grid">
+            <div class="bcb__card" data-reveal>
+              <p class="bcb__word bcb__word--click">Click</p>
+              <ul>{clickItems.map((x) => <li>{x}</li>)}</ul>
+            </div>
+            <div class="bcb__join" aria-hidden="true"><span>Connected healthcare</span></div>
+            <div class="bcb__card" data-reveal>
+              <p class="bcb__word">Brick</p>
+              <ul>{brickItems.map((x) => <li>{x}</li>)}</ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- JOURNEY -->
+      <section class="bsec bsec--soft" id="journey">
+        <div class="bwrap">
+          <div class="bvision">
+            <div class="bvision__photos" data-reveal>
+              <img class="bvision__a" src="/media/health-centre.webp" alt="A primary health centre" width="1024" height="571" loading="lazy" />
+              <img class="bvision__b" src="/media/phone-abuja.webp" alt="A young woman uses her phone to reach a doctor, with Abuja behind her" width="1024" height="571" loading="lazy" />
+            </div>
+            <div data-reveal>
+              <p class="beyebrow">The vision</p>
+              <h2 class="bh2">One patient. One connected journey.</h2>
+              <p class="bvision__lead">A Nigeria where everyone can access the right care, wherever they are.</p>
+              <p>NTC 2.0 brings together healthcare professionals, facilities, technology, financing and data to build a more connected health system.</p>
+            </div>
+          </div>
+          <div class="bpath" data-reveal>
+            <p class="bpath__label">Connected care pathway</p>
+            <ol class="bpath__list">
+              {journey.map((step, i) => (
+                <li class={`bpath__step bpath__step--${step.kind}`}>
+                  <span class="bpath__icon"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={stepIcons[i]} /></span>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </li>
+              ))}
+            </ol>
+            <p class="bpath__foot">A connected healthcare system, built for everyone.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FILM -->
+      <section class="bsec" id="film">
+        <div class="bwrap">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">NTC in pictures</h2>
+            <p class="bsub">From NTC 2025 to the communities telehealth serves.</p>
+          </div>
+          <div class="bfilm">
+            {reels.map((r) => (
+              <figure class={`bfilm__item bfilm__item--${r.shape}`} data-reveal>
+                <video controls preload="none" playsinline poster={r.poster} width={r.w} height={r.h}>
+                  <source src={r.src} type="video/mp4" />
+                </video>
+                <figcaption><strong>{r.title}</strong> {r.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <a class="binsta" href={contact.instagram[0].url} target="_blank" rel="noopener" data-reveal>
+            <span class="binsta__icon" aria-hidden="true">◎</span>
+            <span><strong>More from NTC 2.0</strong>Follow the conversation on Instagram</span>
+            <span class="binsta__handles">{contact.instagram.map((i) => i.handle).join(' · ')}</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- TOPICS -->
+      <section class="bsec bsec--soft">
+        <div class="bwrap">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">Questions on the table</h2>
+            <p class="bsub">Seven themes NTC 2.0 will settle, or at least move forward.</p>
+          </div>
+          <ol class="btopics">
+            {topics.map((t, i) => (
+              <li data-reveal><span>{String(i + 1).padStart(2, '0')}</span><h3>{t}</h3></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- PROGRAMME -->
+      <section class="bdark" id="programme">
+        <div class="bwrap bagenda">
+          <div class="bagenda__intro" data-reveal>
+            <h2 class="bh2 bh2--light">Agenda</h2>
+            <p class="bagenda__kicker">Conference programme</p>
+            <p>{event.dateLabel}. All times West Africa Time. This is a working draft; sessions may move.</p>
+            <a class="bbtn" href="#tickets">Register for NTC 2.0 <span aria-hidden="true">→</span></a>
+          </div>
+          <ol class="bagenda__list">
+            {programme.map((item) => (
+              <li id={item.session ? `session-${item.session}` : undefined} class={`bslot ${item.kind ? `bslot--${item.kind}` : ''}`} data-reveal>
+                <p class="bslot__time">{item.time}–{item.end}</p>
+                <div>
+                  <h3>{item.title}</h3>
+                  {item.sub && <p>{item.sub}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- SPEAKERS -->
+      <section class="bsec" id="speakers">
+        <div class="bwrap">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">Speakers</h2>
+            <p class="bsub">Meet the voices shaping healthcare. More to be announced.</p>
+          </div>
+          <ul class="bspeakers">
+            {speakers.map((s) => (
+              <li class="bspeaker" data-reveal>
+                <div class="bspeaker__photo">
+                  {s.photo ? <img src={s.photo} alt={s.name} loading="lazy" width="320" height="320" /> : <span aria-hidden="true">{initials(s.name)}</span>}
+                </div>
+                {s.type === 'Moderator' && <p class="bspeaker__tag">Moderator</p>}
+                <h3>{s.name}</h3>
+                <p class="bspeaker__role">{s.role}</p>
+                <p class="bspeaker__org">{s.org}</p>
+                {s.session ? (
+                  <a class="bchip" href={sessionHref(s.session)}>{sessionTime(s.session)} · {sessionFor(s.session)?.short}</a>
+                ) : (
+                  <p class="bchip bchip--muted">Session to be announced</p>
+                )}
+              </li>
+            ))}
+            <li class="bspeaker bspeaker--more" data-reveal>
+              <h3>More speakers soon</h3>
+              <p>New confirmations go up on Instagram first.</p>
+              <a href={contact.instagram[0].url} target="_blank" rel="noopener">{contact.instagram[0].handle} →</a>
+              <a href={`mailto:${contact.partnerships}?subject=NTC%202.0%20speaking`}>Want to speak? Get in touch →</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- GALA -->
+      <section class="bgala" id="gala">
+        <div class="bwrap bgala__inner" data-reveal>
+          <p class="beyebrow beyebrow--gold">Same evening · {event.galaHours}</p>
+          <h2 class="bh2 bh2--light">NTC 2.0 Gala &amp; Awards Night</h2>
+          <p>
+            An evening for the people doing the work: recognising excellence in telehealth, digital health, innovation,
+            partnerships and healthcare leadership, and crowning the winners of the Student Innovation Challenge.
+          </p>
+          <a class="bbtn bbtn--gold" href="#tickets">Conference + Awards Night ticket <span aria-hidden="true">→</span></a>
+          <p class="bgala__small">Award categories and nominations will be announced on Instagram.</p>
+        </div>
+      </section>
+
+      <!-- TICKETS -->
+      <section class="bsec bsec--soft" id="tickets">
+        <div class="bwrap">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">Your pass to NTC 2.0</h2>
+            <p class="bsub">Booked securely through tix.africa. Prices include booking fees.</p>
+          </div>
+          <ul class="btickets">
+            {tickets.map((t) => (
+              <li class={`bticket ${t.featured ? 'bticket--featured' : ''}`} data-reveal>
+                {t.featured && <p class="bticket__flag">Full experience</p>}
+                <h3>{t.name}</h3>
+                <p class="bticket__price">{t.price}</p>
+                <p class="bticket__note">{t.note}</p>
+                <ul>{t.includes.map((x) => <li>{x}</li>)}</ul>
+                <a class={`bbtn ${t.featured ? '' : 'bbtn--outline'}`} href={event.ticketUrl} target="_blank" rel="noopener">Register <span aria-hidden="true">→</span></a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- PARTNERS -->
+      <section class="bsec" id="partners">
+        <div class="bwrap">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">Who convenes NTC</h2>
+            <p class="bsub">NTC 2.0 is led by organisations at the intersection of telehealth delivery and digital health leadership in Nigeria.</p>
+          </div>
+          <ul class="bconveners">
+            {conveners.map((c) => (
+              <li data-reveal>
+                <p class="beyebrow">{c.role}</p>
+                <div class="bconveners__logo">{c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : <strong>{c.name}</strong>}</div>
+                <p class="bconveners__name">{c.name}</p>
+              </li>
+            ))}
+          </ul>
+
+          <div class="bhead bhead--gap" data-reveal>
+            <h2 class="bh2">Partner with NTC 2.0</h2>
+            <p class="bsub">Put your organisation in front of the people shaping Nigeria's telehealth rollout.</p>
+          </div>
+          {filledTiers.length ? (
+            filledTiers.map((t) => (
+              <div class="btier" data-reveal>
+                <p class="beyebrow">{t.label}</p>
+                <ul class="btier__logos">
+                  {t.logos.map((l) => (
+                    <li><a href={l.url || undefined} target="_blank" rel="noopener"><img src={l.logo} alt={l.name} loading="lazy" /></a></li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <ul class="bslots">
+              {openTiers.map((t) => (
+                <li class={`bslotcard bslotcard--${t.id}`} data-reveal>
+                  <p class="bslotcard__open"><span class="blive"></span>Open</p>
+                  <h3>{t.label}</h3>
+                  <p>{t.blurb}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div class="bmoments" data-reveal>
+            <h3>Where partners show up on the day</h3>
+            <ol>
+              {partnerMoments.map((m) => (
+                <li><span>{m.time}</span><strong>{m.title}</strong><p>{m.text}</p></li>
+              ))}
+            </ol>
+          </div>
+          <div class="breach" data-reveal>
+            <div>
+              <p class="beyebrow">Who's in the room</p>
+              <ul class="btags">{audiences.map((a) => <li>{a}</li>)}</ul>
+            </div>
+            <div class="breach__cta">
+              <h3>Let's talk</h3>
+              <p>Tell us what you want to achieve and we'll send the partnership options that fit.</p>
+              <a class="bbtn" href={`mailto:${contact.partnerships}?subject=NTC%202.0%20partnership`}>Email the partnerships team <span aria-hidden="true">→</span></a>
+              <p class="breach__contact">{contact.partnerships} · {contact.phone}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VENUE -->
+      <section class="bsec bsec--soft" id="venue">
+        <div class="bwrap">
+          <div class="bvenue" data-reveal>
+            <img src="/media/abuja.webp" alt="" width="1024" height="576" loading="lazy" aria-hidden="true" />
+            <div class="bvenue__body">
+              <p class="beyebrow beyebrow--lime">Venue</p>
+              <h2 class="bh2 bh2--light">See you in Abuja</h2>
+              <p class="bvenue__name">{event.venue.name}</p>
+              <p>{event.venue.address}</p>
+              <dl class="bchips">
+                <div><dt>Registration</dt><dd>7:30 AM</dd></div>
+                <div><dt>Conference</dt><dd>{event.conferenceHours}</dd></div>
+                <div><dt>Gala</dt><dd>{event.galaHours}</dd></div>
+              </dl>
+              <a class="bbtn" href={event.venue.mapUrl} target="_blank" rel="noopener">Open in Google Maps <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="bsec" id="faq">
+        <div class="bwrap bfaq">
+          <div class="bhead" data-reveal>
+            <h2 class="bh2">Good to know</h2>
+            <p class="bsub">Still have a question? Email {contact.support}.</p>
+          </div>
+          <div class="bfaq__list">
+            {faqs.map((f) => (
+              <details data-reveal>
+                <summary>{f.q}</summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bfoot">
+      <div class="bwrap bfoot__grid">
+        <div>
+          <img class="bfoot__logo" src="/media/logos/ntc-wordmark.png" alt="Nigerian Telehealth Conference" width="300" loading="lazy" />
+          <p class="bfoot__name">NTC 2.0</p>
+          <p>{event.dateLabel} · Abuja</p>
+          <p>{event.theme}: {event.themeAccent}</p>
+        </div>
+        <div>
+          <p class="bfoot__h">Explore</p>
+          <a href="#about">About</a><a href="#journey">Vision</a><a href="#programme">Agenda</a><a href="#speakers">Speakers</a><a href="#partners">Partners</a>
+        </div>
+        <div>
+          <p class="bfoot__h">Contact</p>
+          <a href={contact.phoneHref}>{contact.phone}</a>
+          <a href={`mailto:${contact.support}`}>{contact.support}</a>
+          {contact.instagram.map((i) => <a href={i.url} target="_blank" rel="noopener">{i.handle}</a>)}
+        </div>
+      </div>
+      <p class="bfoot__giant" aria-hidden="true">NTC 2.0</p>
+    </footer>
+
+    <a class="bfloat" href="#tickets">Register</a>
+  </div>
+
+  <DesignSwitch current="b" />
+
+  <script>
+    import '../scripts/motion.js';
+  </script>
+</Base>

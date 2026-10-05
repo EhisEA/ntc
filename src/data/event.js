@@ -192,7 +192,11 @@ export const faqs = [
 // while every tier is empty, the page shows the open partnership tiers instead.
 // Tier names follow the NTC 2.0 brand guide; confirm them with the organisers.
 export const partners = {
-  convener: { name: 'Mobihealth International', logo: null },
+  convener: { name: 'Mobihealth International', logo: '/media/logos/mobihealth.png', role: 'Convener' },
+  // Co-convener as shown on the team's portal; confirm with the organisers.
+  coConveners: [
+    { name: 'Society for Telemedicine and eHealth in Nigeria (SfTeHIN)', logo: '/media/logos/sftehin.png', role: 'Co-convener' },
+  ],
   tiers: [
     { id: 'platinum', label: 'Platinum', blurb: 'Headline partner', logos: [] },
     { id: 'gold', label: 'Gold', blurb: 'Partner', logos: [] },
@@ -211,3 +215,33 @@ export const partnerMoments = [
   { time: '5:17 PM', title: 'Partnership announcements', text: 'Announce a commitment on stage at the closing plenary.' },
   { time: '7:00 PM', title: 'Gala & Awards Night', text: 'Sponsor an award category and be recognised at the gala dinner.' },
 ];
+
+// one patient's connected journey (click = digital, brick = physical)
+export const journey = [
+  { kind: 'brick', title: 'Community', text: 'Care starts where people live: the market, the school, the street.' },
+  { kind: 'brick', title: 'Primary health centre', text: 'The first point of care, a short walk from home.' },
+  { kind: 'click', title: 'Teleconsultation', text: 'A doctor on screen, from anywhere in the country.' },
+  { kind: 'both', title: 'Diagnostics', text: 'Tests done locally, results shared with the doctor digitally.' },
+  { kind: 'click', title: 'Specialist care', text: 'The right specialist, without the long journey.' },
+  { kind: 'brick', title: 'Referral', text: 'When a hospital is needed, the hand-off is ready.' },
+  { kind: 'click', title: 'Follow-up', text: 'Check-ins and prescriptions by phone, so care continues at home.' },
+];
+
+export const reels = [
+  {
+    shape: 'wide', w: 960, h: 540,
+    src: '/media/reels/ntc-pictures-reel-2.mp4', poster: '/media/reels/ntc-pictures-reel-2.webp',
+    title: 'NTC 2025', caption: 'A national meeting on scaling telehealth across Nigeria.',
+  },
+  {
+    shape: 'wide', w: 960, h: 540,
+    src: '/media/reels/ntc-past-works-reel.mp4', poster: '/media/reels/ntc-past-works-reel.webp',
+    title: 'In the community', caption: 'Mobihealth telehealth outreach, Bariga, Lagos.',
+  },
+  {
+    shape: 'tall', w: 480, h: 854,
+    src: '/media/reels/ntc-pictures-reel-1.mp4', poster: '/media/reels/ntc-pictures-reel-1.webp',
+    title: 'NTC 2025 speakers', caption: 'Voices from the first conference.',
+  },
+];
+

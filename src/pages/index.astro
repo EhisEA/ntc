@@ -11,22 +11,13 @@ import {
   faqs,
   partners,
   partnerMoments,
+  journey,
+  reels,
 } from '../data/event.js';
+import { initials, sessionFor, sessionTime, sessionHref } from '../lib/helpers.js';
+import DesignSwitch from '../components/DesignSwitch.astro';
+import '../styles/global.css';
 
-const initials = (name) =>
-  name
-    .replace(/^(Dr|Mr|Mrs|Ms|Prof|Pharm|Hon|Engr)\.?\s+/i, '')
-    .split(/\s+/)
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join('');
-
-const sessionFor = (n) => programme.find((p) => p.session === n);
-const sessionTime = (n) => {
-  const p = sessionFor(n);
-  return p ? `${p.time}–${p.end}` : '';
-};
-const sessionHref = (n) => `#session-${n}`;
 const filledTiers = partners.tiers.filter((t) => t.logos.length);
 const openTiers = partners.tiers.filter((t) => ['platinum', 'gold', 'silver'].includes(t.id));
 
@@ -117,6 +108,7 @@ const topicIcons = [
       ))}
 
       <div class="wrap hero__inner">
+        <div class="hero__copy">
         <p class="hero__kicker rise" style="--d:0">Nigerian Telehealth Conference · 2nd edition</p>
         <p class="hero__date rise" style="--d:1">{event.dateLabel} · Abuja</p>
         <h1 class="hero__title rise" style="--d:2">
@@ -126,6 +118,22 @@ const topicIcons = [
         <div class="hero__ctas rise" style="--d:3">
           <a class="btn" href="#tickets"><span class="btn__label">Get tickets</span><span class="btn__arr" aria-hidden="true">→</span></a>
           <a class="btn btn--white" href="#partners"><span class="btn__label">Become a partner</span><span class="btn__arr" aria-hidden="true">→</span></a>
+        </div>
+        </div>
+
+        <div class="scene rise" style="--d:3">
+          <figure class="scene__main">
+            <img src="/media/nurse-tablet.webp" alt="A health worker connects a patient to a doctor by video call on a tablet" width="900" height="900" fetchpriority="high" />
+            <span class="scene__tag scene__tag--click"><i></i>Click · video consultation</span>
+          </figure>
+          <figure class="scene__inset">
+            <img src="/media/health-centre.webp" alt="A primary health centre" width="1024" height="571" />
+            <span class="scene__tag scene__tag--brick">Brick · health centre</span>
+          </figure>
+          <svg class="scene__link" viewBox="0 0 200 160" aria-hidden="true">
+            <path id="scene-path" d="M20 20 C 120 10, 60 140, 180 140" />
+            <circle r="7"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#scene-path" /></animateMotion></circle>
+          </svg>
         </div>
       </div>
 
@@ -168,29 +176,49 @@ const topicIcons = [
           <p class="cbw__word">Click</p>
           <p>The phone call, the video consultation, the e-prescription, the record that follows the patient from clinic to clinic.</p>
         </div>
-        <svg class="cbw__art" viewBox="0 0 240 240" aria-hidden="true">
-          <g class="art-signal"><path d="M150 52a52 52 0 0 1 52 52" /><path d="M150 30a74 74 0 0 1 74 74" /></g>
-          <rect x="62" y="40" width="104" height="176" rx="18" class="art-body" />
-          <rect x="74" y="62" width="80" height="120" rx="6" class="art-screen" />
-          <circle cx="114" cy="104" r="16" class="art-face" />
-          <path d="M86 170c4-20 16-30 28-30s24 10 28 30z" class="art-face" />
-          <path d="M108 128h12M114 122v12" class="art-cross" />
-          <circle cx="114" cy="198" r="7" class="art-btn" />
-        </svg>
+        <figure class="cbw__photo">
+          <img src="/media/doctor-video-call.webp" alt="A doctor on a video consultation with a patient" width="900" height="900" loading="lazy" />
+        </figure>
       </div>
       <div class="cbw__amp" aria-hidden="true"><span>&amp;</span></div>
       <div class="cbw__half cbw__half--brick">
-        <svg class="cbw__art" viewBox="0 0 240 240" aria-hidden="true">
-          <rect x="96" y="22" width="48" height="48" rx="6" class="art-plus-bg" />
-          <path d="M120 32v28M106 46h28" class="art-plus" />
-          <g class="art-bricks">
-            {wall.map(([x, y, w, r]) => <rect x={x} y={y} width={w} height="20" rx="2" style={`--r:${r}`} />)}
-          </g>
-          <rect x="102" y="166" width="36" height="50" rx="4" class="art-door" />
-        </svg>
+        <figure class="cbw__photo">
+          <img src="/media/health-centre.webp" alt="A primary health centre with patients arriving" width="1024" height="571" loading="lazy" />
+        </figure>
         <div class="cbw__copy">
           <p class="cbw__word">Brick</p>
           <p>The primary health centre, the pharmacy counter, the market kiosk, the hospital bed. The places people already walk into and trust.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- JOURNEY: what telehealth looks like for one patient -->
+    <section class="journey" id="journey">
+      <div class="wrap">
+        <div class="section__head section__head--light">
+          <div>
+            <p class="eyebrow eyebrow--lime">How telehealth works</p>
+            <h2 class="display display--light">One patient.<br />One connected journey.</h2>
+          </div>
+          <p class="section__note">A Nigeria where everyone can reach the right care, wherever they are. This is what NTC 2.0 is working to make normal.</p>
+        </div>
+        <div class="journey__grid">
+          <figure class="journey__photo">
+            <img src="/media/phone-abuja.webp" alt="A young woman uses her phone to reach a doctor, with Abuja behind her" width="1024" height="571" loading="lazy" />
+            <figcaption><span class="journey__live"></span>Doctor available</figcaption>
+          </figure>
+          <ol class="path">
+            {journey.map((step, i) => (
+              <li class={`path__step path__step--${step.kind}`}>
+                <span class="path__node" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <p class="path__kind">{step.kind === 'both' ? 'Click + Brick' : step.kind === 'click' ? 'Click' : 'Brick'}</p>
+                  <h3 class="path__title">{step.title}</h3>
+                  <p class="path__text">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>
@@ -217,6 +245,35 @@ const topicIcons = [
             <span>VillageReach, Lagos Telehealth Case Study, 2026</span>
           </figcaption>
         </figure>
+      </div>
+    </section>
+
+    <!-- FILM: real footage from NTC 2025 and Mobihealth in the community -->
+    <section class="film" id="film">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">On film</p>
+            <h2 class="display">Telehealth,<br />on the ground.</h2>
+          </div>
+          <p class="section__note">NTC 2.0 builds on NTC 2025 and on years of telehealth work in Nigerian communities. Press play.</p>
+        </div>
+        <div class="film__grid">
+          {reels.map((r) => (
+            <figure class={`reel reel--${r.shape}`}>
+              <video controls preload="none" playsinline poster={r.poster} width={r.w} height={r.h}>
+                <source src={r.src} type="video/mp4" />
+              </video>
+              <figcaption><strong>{r.title}</strong>{r.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <p class="film__more">
+          More on Instagram:{' '}
+          {contact.instagram.map((ig, i) => (
+            <>{i > 0 && ' · '}<a href={ig.url} target="_blank" rel="noopener">{ig.handle}</a></>
+          ))}
+        </p>
       </div>
     </section>
 
@@ -395,11 +452,12 @@ const topicIcons = [
 
         <p class="convened">
           <span>Convened by</span>
-          {partners.convener.logo ? (
-            <img src={partners.convener.logo} alt={partners.convener.name} height="40" />
-          ) : (
-            <strong>{partners.convener.name}</strong>
-          )}
+          {[partners.convener, ...(partners.coConveners || [])].map((c) => (
+            <span class="convened__org">
+              {c.logo ? <img src={c.logo} alt={c.name} height="44" /> : <strong>{c.name}</strong>}
+              {c.role && <em>{c.role}</em>}
+            </span>
+          ))}
         </p>
 
         {filledTiers.length ? (
@@ -529,6 +587,8 @@ const topicIcons = [
     </div>
     <p class="footer__giant" aria-hidden="true">Click &amp; Brick</p>
   </footer>
+
+  <DesignSwitch current="a" />
 
   <a class="float-cta" href="#tickets"><span class="float-cta__icon" aria-hidden="true">✦</span>Get tickets</a>
 

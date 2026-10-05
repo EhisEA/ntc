@@ -1,0 +1,60 @@
+---
+// Review-only control for comparing the two designs. Remove it from both pages once a design is chosen.
+const { current } = Astro.props;
+const options = [
+  { id: 'a', label: 'Bold', href: '/' },
+  { id: 'b', label: 'Classic', href: '/b/' },
+];
+---
+<nav class="ds" aria-label="Compare designs">
+  <span class="ds__label">Design</span>
+  {options.map((o) => (
+    <a
+      class={`ds__opt ${o.id === current ? 'is-on' : ''}`}
+      href={o.href}
+      data-design-link
+      aria-current={o.id === current ? 'page' : undefined}
+    >
+      <b>{o.id.toUpperCase()}</b><span>{o.label}</span>
+    </a>
+  ))}
+</nav>
+
+<script>
+  // Keep the reviewer on the same section when switching designs.
+  document.querySelectorAll('[data-design-link]').forEach((link) => {
+    link.addEventListener('click', (ev) => {
+      if (link.getAttribute('aria-current')) return ev.preventDefault();
+      const sections = [...document.querySelectorAll('section[id]')];
+      const mid = window.innerHeight * 0.35;
+      const here = sections.filter((s) => s.getBoundingClientRect().top <= mid).pop();
+      if (here) {
+        ev.preventDefault();
+        window.location.href = `${link.getAttribute('href')}#${here.id}`;
+      }
+    });
+  });
+</script>
+
+<style>
+  .ds {
+    position: fixed; left: 16px; bottom: 16px; z-index: 60;
+    display: flex; align-items: center; gap: 4px; padding: 5px;
+    background: #fff; border: 2px solid #0a2342; border-radius: 999px;
+    box-shadow: 0 12px 30px -10px rgba(10,35,66,.5);
+    font: 600 13px/1 'Inter', system-ui, sans-serif;
+  }
+  .ds__label { padding: 0 8px 0 10px; color: #586374; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+  .ds__opt {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px;
+    color: #0a2342; text-decoration: none; transition: background .2s ease, color .2s ease;
+  }
+  .ds__opt b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #e7efe9; font-size: 11px; }
+  .ds__opt:hover { background: #eef5f0; }
+  .ds__opt.is-on { background: #0a2342; color: #fff; }
+  .ds__opt.is-on b { background: #8dc63f; color: #0a2342; }
+  @media (max-width: 520px) {
+    .ds__label, .ds__opt span { display: none; }
+    .ds__opt { padding: 7px; }
+  }
+</style>
